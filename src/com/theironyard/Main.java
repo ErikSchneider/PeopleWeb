@@ -1,12 +1,16 @@
 package com.theironyard;
 
+import spark.ModelAndView;
+import spark.Spark;
+import spark.template.mustache.MustacheTemplateEngine;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Main {
-
 
     static ArrayList<Person> people = new ArrayList<>();
 
@@ -17,12 +21,19 @@ public class Main {
 
         System.out.println(personList.toString());
 
-//        Spark.get(
-//                "/",
-//                (request, response) -> {
-//                    String
-//                }
-//        );
+        Spark.get(
+                "/",
+                (request, response) -> {
+                    HashMap p = new HashMap();
+                    p.put("personList", personList);
+                    return new ModelAndView(p, "home.html");
+
+                },
+                new MustacheTemplateEngine()
+
+        );
+
+
 
     }
 
