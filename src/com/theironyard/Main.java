@@ -1,8 +1,43 @@
 package com.theironyard;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
 public class Main {
 
-    public static void main(String[] args) {
-	// write your code here
+
+    static ArrayList<Person> people = new ArrayList<>();
+
+
+    public static void main(String[] args) throws FileNotFoundException {
+        readFile();
+        ArrayList<Person> personList = readFile();
+
+        System.out.println(personList.toString());
+
+//        Spark.get(
+//                "/",
+//                (request, response) -> {
+//                    String
+//                }
+//        );
+
+    }
+
+
+    public static ArrayList<Person> readFile() throws FileNotFoundException {
+
+        File peopleFile = new File("People.csv");
+        Scanner fileScanner = new Scanner(peopleFile);
+        fileScanner.nextLine();
+        while (fileScanner.hasNext()) {
+            String line = fileScanner.nextLine();
+            String[] columns = line.split(",");
+            Person person = new Person(Integer.valueOf(columns[0]), columns[1], columns[2], columns[3], columns[4], columns[5]);
+            people.add(person);
+        }
+        return people;
     }
 }
