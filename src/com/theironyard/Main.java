@@ -25,15 +25,15 @@ public class Main {
                 "/",
                 (request, response) -> {
                     HashMap p = new HashMap();
-                    p.put("personList", personList);
+
+                    ArrayList<Person> templist = new ArrayList<>(people.subList(0, 20));
+                    p.put("personList", templist);
                     return new ModelAndView(p, "home.html");
 
                 },
                 new MustacheTemplateEngine()
 
         );
-
-
 
     }
 
