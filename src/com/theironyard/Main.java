@@ -17,22 +17,37 @@ public class Main {
 
     public static void main(String[] args) throws FileNotFoundException {
         readFile();
-        ArrayList<Person> personList = readFile();
-
-        System.out.println(personList.toString());
-
         Spark.get(
                 "/",
                 (request, response) -> {
                     HashMap p = new HashMap();
 
-                    ArrayList<Person> templist = new ArrayList<>(people.subList(0, 20));
+                    int offset = 0;
+                    String offsetStr = request.queryParams("offset");
+                    if (offsetStr != null) {
+                        offset = Integer.valueOf(offsetStr);
+                    }
+                    ArrayList<Person> templist = new ArrayList<>(people.subList(offset, offset+20));
+                    p.put("offsetUp",offset + 20);
+                    p.put("offsetDown", offset - 20);
                     p.put("personList", templist);
                     return new ModelAndView(p, "home.html");
+
 
                 },
                 new MustacheTemplateEngine()
 
+        );
+        Spark.get(
+                "/person",
+                (request, response) -> {
+                    int id = Integer.valueOf(request.queryParams("id"));
+                    Person person = people.get(id - 1);
+                    return new ModelAndView(person, "information.html");
+
+
+                },
+                new MustacheTemplateEngine()
         );
 
     }
