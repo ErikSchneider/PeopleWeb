@@ -12,6 +12,8 @@ import java.util.Scanner;
 
 public class Main {
 
+    static final int LIMIT = 20;
+
     static ArrayList<Person> people = new ArrayList<>();
 
 
@@ -27,9 +29,9 @@ public class Main {
                     if (offsetStr != null) {
                         offset = Integer.valueOf(offsetStr);
                     }
-                    ArrayList<Person> templist = new ArrayList<>(people.subList(offset, offset+20));
-                    p.put("offsetUp",offset + 20);
-                    p.put("offsetDown", offset - 20);
+                    ArrayList<Person> templist = new ArrayList<>(people.subList(offset, offset+LIMIT));
+                    p.put("offsetUp",offset + LIMIT);
+                    p.put("offsetDown", offset - LIMIT);
                     p.put("personList", templist);
                     return new ModelAndView(p, "home.html");
 
